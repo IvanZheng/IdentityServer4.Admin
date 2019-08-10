@@ -6,6 +6,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Log\**" />
+	  <Content Remove="Log\**" />
+	  <EmbeddedResource Remove="Log\**" />
+	  <None Remove="Log\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
