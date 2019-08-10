@@ -300,8 +300,9 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
         private static void RegisterIdentityDbContext<TContext>(IServiceCollection services, IConfiguration configuration)
             where TContext : DbContext
         {
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             var connectionString = configuration.GetConnectionString(ConfigurationConsts.IdentityDbConnectionStringKey);
-            services.AddDbContext<TContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<TContext>(options =>  options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
         }
 
         /// <summary>

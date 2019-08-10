@@ -1,6 +1,8 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -107,6 +109,17 @@ namespace Skoruba.IdentityServer4.Admin
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
+
+            EnsureSeedData(app.ApplicationServices);
+        }
+
+        public static void EnsureSeedData(IServiceProvider provider)
+        {
+            using (var scope = provider.CreateScope())
+            {
+                var scopeProvider = scope.ServiceProvider;
+                scopeProvider.GetRequiredService<AdminLogDbContext>().Database.Migrate();
+            }
         }
     }
 }

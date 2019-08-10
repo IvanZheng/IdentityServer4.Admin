@@ -20,19 +20,19 @@ namespace Skoruba.IdentityServer4.Admin.UnitTests.Mappers
 			//Assert
 			apiResourceDto.Should().NotBeNull();
 
-			apiResource.ShouldBeEquivalentTo(apiResourceDto, options =>
-				options.Excluding(o => o.Secrets)
-					   .Excluding(o => o.Scopes)
-					   .Excluding(o => o.Properties)
-					   .Excluding(o => o.Created)
-					   .Excluding(o => o.Updated)
-					   .Excluding(o => o.LastAccessed)
-					   .Excluding(o => o.NonEditable)
-					   .Excluding(o => o.UserClaims));
+            apiResource.ShouldBeEquivalentTo(apiResourceDto, options =>
+                options.Excluding(o => o.Secrets)
+                       .Excluding(o => o.Scopes)
+                       .Excluding(o => o.Properties)
+                       .Excluding(o => o.Created)
+                       .Excluding(o => o.Updated)
+                       .Excluding(o => o.LastAccessed)
+                       .Excluding(o => o.NonEditable)
+                       .Excluding(o => o.UserClaims));
 
-			//Assert collection
-			apiResource.UserClaims.Select(x => x.Type).ShouldBeEquivalentTo(apiResourceDto.UserClaims);
-		}
+            //Assert collection
+            apiResource.UserClaims.Select(x => x.Type).Should().BeEquivalentTo(apiResourceDto.UserClaims);
+        }
 
 		[Fact]
 		public void CanMapApiResourceDtoToEntity()

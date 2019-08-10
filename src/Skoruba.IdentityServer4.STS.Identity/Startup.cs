@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -71,6 +73,19 @@ namespace Skoruba.IdentityServer4.STS.Identity
             app.UseIdentityServer();
             app.UseMvcLocalizationServices();
             app.UseMvcWithDefaultRoute();
+
+            EnsureSeedData(app.ApplicationServices);
+        }
+
+        public static void EnsureSeedData(IServiceProvider provider)
+        {
+            using (var scope = provider.CreateScope())
+            {
+                var scopeProvider = scope.ServiceProvider;
+                scopeProvider.GetRequiredService<AdminIdentityDbContext>().Database.Migrate();
+                scopeProvider.GetRequiredService<IdentityServerConfigurationDbContext>().Database.Migrate();
+                scopeProvider.GetRequiredService<IdentityServerPersistedGrantDbContext>().Database.Migrate();
+            }
         }
     }
 }
